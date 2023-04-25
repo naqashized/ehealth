@@ -30,7 +30,7 @@ public class PatientControllerTests {
     protected ObjectMapper objectMapper;
     @Autowired
     private PatientRepository patientRepository;
-    
+
     @Autowired
     private WebTestClient webTestClient;
 
