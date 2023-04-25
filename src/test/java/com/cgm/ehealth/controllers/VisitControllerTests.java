@@ -68,20 +68,13 @@ public class VisitControllerTests {
 
     @Test
     void add_new_visit(){
-        Patient patient = new Patient();
-        patient.setBirthDate(LocalDate.now());
-        patient.setName("Tom");
-        patient.setSurname("Hardy");
-        patient.setSocialSecurityNumber("1234666");
-
-       String patientId =  patientRepository.save(patient).block().getId();
+       String patientId =  setupPatient();
 
         NewVisitDTO newVisitDTO = new NewVisitDTO(patientId, "No decease history",
                 VisitType.HOME, VisitReason.FIRST,LocalDateTime.now());
 
 
         MediaType MEDIA_TYPE_JSON_UTF8 = new MediaType("application", "json", java.nio.charset.Charset.forName("UTF-8"));
-        //String request = objectMapper.writeValueAsString(newVisitDTO);
         webTestClient.post().uri("/v1/visits")
                 .contentType(MEDIA_TYPE_JSON_UTF8).bodyValue(newVisitDTO)
                 .exchange().expectStatus().isEqualTo(HttpStatus.CREATED)
@@ -102,13 +95,7 @@ public class VisitControllerTests {
     }
 
     private String setupVisit() {
-        Patient patient = new Patient();
-        patient.setBirthDate(LocalDate.now());
-        patient.setName("Tom");
-        patient.setSurname("Hardy");
-        patient.setSocialSecurityNumber(UUID.randomUUID().toString());
-
-        String patientId =  patientRepository.save(patient).block().getId();
+        String patientId = setupPatient();
 
         Visit visit = new Visit();
         visit.setVisitTime(LocalDateTime.now());
@@ -118,5 +105,16 @@ public class VisitControllerTests {
 
         String visitId = visitRepository.save(visit).block().getId();
         return visitId;
+    }
+
+    private String setupPatient(){
+        Patient patient = new Patient();
+        patient.setBirthDate(LocalDate.now());
+        patient.setName("Tom");
+        patient.setSurname("Hardy");
+        patient.setSocialSecurityNumber(UUID.randomUUID().toString());
+
+        String patientId =  patientRepository.save(patient).block().getId();
+        return patientId;
     }
 }
