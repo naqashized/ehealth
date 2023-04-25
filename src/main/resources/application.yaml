@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: local
+server:
+    port: 9091
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+springdoc:
+  api-docs:
+    path: "/v1/docs"
+  swagger-ui:
+    path: /swagger-ui.html
+
+ehealth:
+  min:
+    patients: 1
+
