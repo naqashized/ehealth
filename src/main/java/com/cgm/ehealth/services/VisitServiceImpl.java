@@ -44,6 +44,7 @@ public class VisitServiceImpl implements VisitService{
         PatientDetailsDTO patientDetailsDTO = patientMono.map(patient -> new PatientDetailsDTO(patient.getId(), patient.getName(),
                 patient.getSurname())).toFuture().get();
 
-        return visitMono.map(response -> new VisitDetailsDTO(response.getId(), response.getFamilyHistory(),patientDetailsDTO));
+        return visitMono.map(response -> new VisitDetailsDTO(response.getId(), response.getFamilyHistory(),
+                response.getType(), response.getReason(), patientDetailsDTO));
     }
 }
